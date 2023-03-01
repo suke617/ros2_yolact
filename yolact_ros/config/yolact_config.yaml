@@ -1,0 +1,19 @@
+yolact_ros2_node:
+  ros__parameters:
+    yolact_path: /home/suke/Documents/yolact
+    model_path: /home/suke/Documents/yolact/weights/yolact_base_20082_301245_interrupt.pth
+    image_topic: /image_raw
+    use_compressed_image: False
+    publish_visualization: True
+    publish_detections: True
+    display_visualization: True
+    display_masks: True
+    display_bboxes: True
+    display_text: True
+    display_scores: True
+    display_fps: True
+    score_threshold: 0.7
+    crop_masks: True
+    top_k: 5
+    publish_namespace: /yolact_ros2
+
