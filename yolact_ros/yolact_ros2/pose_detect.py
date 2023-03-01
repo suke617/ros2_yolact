@@ -51,9 +51,8 @@ class Pose_detect(Node):
                 _, bw = cv2.threshold(mask, 0, 255, cv2.THRESH_BINARY) 
                 kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
                 dst = cv2.erode(bw, kernel)
-                ma = np.where(dst == 255,1,0) #unpacked_mask #np.where(unpacked_mask[:,:] != 0)
-               
-                image_array[box.y1:box.y2,box.x1:box.x2] = ma#sk
+                mask = np.where(dst == 255,1,0) #unpacked_mask #np.where(unpacked_mask[:,:] != 0)
+                image_array[box.y1:box.y2,box.x1:box.x2] = mask
                
             _, bin_img = cv2.threshold(image_array, 0, 255, cv2.THRESH_BINARY)       
             fg_roi=self.pose(bin_img)   
@@ -62,23 +61,7 @@ class Pose_detect(Node):
         except :
             pass
 
-    def paint_mask(img_numpy, mask, color):
-        h, w, _ = img_numpy.shape
-        img_numpy = img_numpy.copy()
 
-        mask = np.tile(mask.reshape(h, w, 1), (1, 1, 3))
-        color_np = np.array(color[:3]).reshape(1, 1, 3)
-        color_np = np.tile(color_np, (h, w, 1))
-        mask_color = mask * color_np
-
-        mask_alpha = 0.3
-
-        # Blend image and mask
-        image_crop = img_numpy * mask
-        img_numpy *= (1-mask)
-        img_numpy += image_crop * (1-mask_alpha) + mask_color * mask_alpha
-
-        return img_numpy
     
     def drawAxis(self,dst, p_, q_, colour, scale):
         p = list(p_)
